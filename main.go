@@ -3,8 +3,8 @@ package main
 import (
 	"log"
 
-	"github.com/alphatechnolog/purplish-materials/core"
-	"github.com/alphatechnolog/purplish-materials/database"
+	"github.com/alphatechnolog/purplish-items/core"
+	"github.com/alphatechnolog/purplish-items/database"
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,6 +19,5 @@ func main() {
 	r := gin.Default()
 	defer r.Run()
 
-	core.CreateMaterialsRoutes(db, r.Group("/materials"))
-	core.CreateWarehousesRoutes(db, r.Group("/warehouses"))
+	core.CreateItemsRoutes(db, r.Group("/items"))
 }

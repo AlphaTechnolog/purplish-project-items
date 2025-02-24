@@ -1,32 +1,16 @@
-CREATE TABLE IF NOT EXISTS materials (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    description TEXT,
-    status INTEGER CHECK(status IN (0, 1))
+CREATE TABLE IF NOT EXISTS items (
+    id VARCHAR(36) PRIMARY KEY,
+    name VARCHAR(60) NOT NULL,
+    description VARCHAR(255),
+    status INTEGER CHECK (status IN (0, 1))
 );
 
-CREATE TABLE IF NOT EXISTS warehouses (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    name TEXT NOT NULL,
-    status INTEGER CHECK(status IN (0, 1))
-);
-
-CREATE TABLE IF NOT EXISTS material_warehouses (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    material_id INTEGER,
-    warehouse_id INTEGER,
-    quantity INTEGER,
-    FOREIGN KEY (material_id) REFERENCES materials(id) ON DELETE CASCADE,
-    FOREIGN KEY (warehouse_id) REFERENCES warehouses(id) ON DELETE CASCADE,
-    UNIQUE (material_id, warehouse_id)
-);
-
-INSERT INTO materials (name, status) VALUES
-('Manzana', 1),
-('Agua', 1);
-
-INSERT INTO warehouses (name, status) VALUES ('Principal', 1);
-
-INSERT INTO material_warehouses (material_id, warehouse_id, quantity) VALUES
-(1, 1, 3),
-(2, 1, 10);
+INSERT INTO
+    items (id, name, status)
+VALUES
+    (
+        'df4985ba-45ee-45dc-b31f-8fcbd677e9a2',
+        'Manzana',
+        1
+    ),
+    ('0f036704-033c-46ff-af90-8e7da10daf70', 'Agua', 1);

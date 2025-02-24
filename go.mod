@@ -1,4 +1,4 @@
-module github.com/alphatechnolog/purplish-materials
+module github.com/alphatechnolog/purplish-items
 
 go 1.23.5
 
