@@ -21,6 +21,21 @@ func getItems(d *sql.DB, c *gin.Context) error {
 	return nil
 }
 
+func getItemsByWarehouse(d *sql.DB, c *gin.Context) error {
+	warehouseID := c.Param("ID")
+	items, err := database.GetItemsByWarehouse(d, warehouseID)
+	if err != nil {
+		return err
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"items": items,
+	})
+
+	return nil
+}
+
 func CreateItemsRoutes(d *sql.DB, r *gin.RouterGroup) {
 	r.GET("/", WrapError(WithDB(d, getItems)))
+	r.GET("/for-warehouse/:ID", WrapError(WithDB(d, getItemsByWarehouse)))
 }
