@@ -25,24 +25,23 @@ VALUES
 CREATE TABLE IF NOT EXISTS items_warehouses (
     id VARCHAR(36) PRIMARY KEY,
     warehouse_id VARCHAR(36) NOT NULL,
-    item_id VARCHAR(36) NOT NULL,
-    quantity INTEGER NOT NULL
+    item_id VARCHAR(36) NOT NULL
 );
 
+CREATE INDEX idx_item_warehouses ON items_warehouses (warehouse_id, item_id);
+
 INSERT INTO
-    items_warehouses (id, warehouse_id, item_id, quantity)
+    items_warehouses (id, warehouse_id, item_id)
 VALUES
-    -- 10 pera -> warehouse: primario
+    -- pera -> warehouse: primario
     (
         'f67497e9-d61d-4d26-97a6-ec752a96b8c5',
         '7d090868-3df5-44e7-9280-3cad6204be59',
-        'df4985ba-45ee-45dc-b31f-8fcbd677e9a2',
-        10
+        'df4985ba-45ee-45dc-b31f-8fcbd677e9a2'
     ),
-    -- 5 agua -> warehouse: primario
+    -- agua -> warehouse: primario
     (
         'b24c5238-9867-444c-9daf-ccbe6de1bdb7',
         '7d090868-3df5-44e7-9280-3cad6204be59',
-        '0f036704-033c-46ff-af90-8e7da10daf70',
-        5
+        '0f036704-033c-46ff-af90-8e7da10daf70'
     );

@@ -10,15 +10,6 @@ type Item struct {
 	Status      bool    `json:"status"`
 }
 
-type WarehouseItem struct {
-	ID          string  `json:"id"`
-	Name        string  `json:"name"`
-	Description *string `json:"description"`
-	Price       int     `json:"price"`
-	Quantity    int     `json:"quantity"`
-	Status      bool    `json:"status"`
-}
-
 func GetItems(d *sql.DB) ([]Item, error) {
 	var items []Item = []Item{}
 
@@ -45,8 +36,8 @@ func GetItems(d *sql.DB) ([]Item, error) {
 	return items, nil
 }
 
-func GetItemsByWarehouse(d *sql.DB, warehouseID string) ([]WarehouseItem, error) {
-	var items []WarehouseItem = []WarehouseItem{}
+func GetItemsByWarehouse(d *sql.DB, warehouseID string) ([]Item, error) {
+	var items []Item = []Item{}
 
 	sql := `
 		SELECT
@@ -54,7 +45,6 @@ func GetItemsByWarehouse(d *sql.DB, warehouseID string) ([]WarehouseItem, error)
 			i.name,
 			i.description,
 			i.price,
-			iw.quantity,
 			i.status
 		FROM
 			items_warehouses iw
@@ -71,8 +61,8 @@ func GetItemsByWarehouse(d *sql.DB, warehouseID string) ([]WarehouseItem, error)
 	defer rows.Close()
 
 	for rows.Next() {
-		var item WarehouseItem
-		err = rows.Scan(&item.ID, &item.Name, &item.Description, &item.Price, &item.Quantity, &item.Status)
+		var item Item
+		err = rows.Scan(&item.ID, &item.Name, &item.Description, &item.Price, &item.Status)
 		if err != nil {
 			return nil, err
 		}
