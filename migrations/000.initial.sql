@@ -9,7 +9,8 @@ CREATE TABLE IF NOT EXISTS items (
 CREATE TABLE IF NOT EXISTS items_warehouses (
     id VARCHAR(36) PRIMARY KEY,
     warehouse_id VARCHAR(36) NOT NULL,
-    item_id VARCHAR(36) NOT NULL
+    item_id VARCHAR(36) NOT NULL,
+    CONSTRAINT unique_warehouse_item UNIQUE (warehouse_id, item_id)
 );
 
 CREATE INDEX idx_item_warehouses ON items_warehouses (warehouse_id, item_id);

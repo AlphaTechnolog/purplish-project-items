@@ -57,6 +57,30 @@ func createItem(d *sql.DB, c *gin.Context) error {
 	return nil
 }
 
+func assignToWarehouse(d *sql.DB, c *gin.Context) error {
+	bodyContents, err := io.ReadAll(c.Request.Body)
+	if err != nil {
+		return err
+	}
+
+	var payload struct {
+		ItemID      string `json:"item_id"`
+		WarehouseID string `json:"warehouse_id"`
+	}
+
+	if err := json.Unmarshal(bodyContents, &payload); err != nil {
+		return err
+	}
+
+	if err = database.AssignItemToWarehouse(d, payload.ItemID, payload.WarehouseID); err != nil {
+		return err
+	}
+
+	c.JSON(http.StatusOK, gin.H{"ok": true})
+
+	return nil
+}
+
 func deleteItem(d *sql.DB, c *gin.Context) error {
 	itemID := c.Param("ID")
 	if itemID == "" {
@@ -77,5 +101,6 @@ func CreateItemsRoutes(d *sql.DB, r *gin.RouterGroup) {
 	r.GET("/", WrapError(WithDB(d, getItems)))
 	r.GET("/for-warehouse/:ID", WrapError(WithDB(d, getItemsByWarehouse)))
 	r.POST("/", WrapError(WithDB(d, createItem)))
+	r.POST("/assign-to-warehouse", WrapError(WithDB(d, assignToWarehouse)))
 	r.DELETE("/:ID", WrapError(WithDB(d, deleteItem)))
 }

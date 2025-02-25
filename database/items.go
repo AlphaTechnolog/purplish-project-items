@@ -121,3 +121,18 @@ func DeleteItem(d *sql.DB, itemID string) error {
 
 	return nil
 }
+
+func AssignItemToWarehouse(d *sql.DB, itemID string, warehouseID string) error {
+	sql := `
+		INSERT INTO items_warehouses (id, item_id, warehouse_id)
+		VALUES
+			(?, ?, ?);
+	`
+
+	_, err := d.Exec(sql, uuid.New().String(), itemID, warehouseID)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
