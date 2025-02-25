@@ -1,6 +1,10 @@
 package database
 
-import "database/sql"
+import (
+	"database/sql"
+
+	"github.com/google/uuid"
+)
 
 type Item struct {
 	ID          string  `json:"id"`
@@ -8,6 +12,12 @@ type Item struct {
 	Description *string `json:"description"`
 	Price       int     `json:"price"`
 	Status      bool    `json:"status"`
+}
+
+type CreateItemPayload struct {
+	Name        string  `json:"name"`
+	Description *string `json:"description,omitempty"`
+	Price       int     `json:"price"`
 }
 
 func GetItems(d *sql.DB) ([]Item, error) {
@@ -75,4 +85,39 @@ func GetItemsByWarehouse(d *sql.DB, warehouseID string) ([]Item, error) {
 	}
 
 	return items, nil
+}
+
+func CreateItem(d *sql.DB, createPayload CreateItemPayload) error {
+	sql := `
+		INSERT INTO items (id, name, description, price, status)
+		VALUES
+			(?, ?, ?, ?, 1);
+	`
+
+	_, err := d.Exec(
+		sql,
+		uuid.New().String(),
+		createPayload.Name,
+		createPayload.Description,
+		createPayload.Price,
+	)
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func DeleteItem(d *sql.DB, itemID string) error {
+	sql := `
+		DELETE FROM items WHERE id = ?;
+	`
+
+	_, err := d.Exec(sql, itemID)
+	if err != nil {
+		return err
+	}
+
+	return nil
 }
