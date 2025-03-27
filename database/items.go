@@ -110,14 +110,14 @@ func CreateItem(d *sql.DB, createPayload CreateItemPayload) error {
 }
 
 func DeleteItem(d *sql.DB, itemID string) error {
-    if _, err := d.Exec("DELETE FROM items WHERE id = ?;", itemID); err != nil {
+	if _, err := d.Exec("DELETE FROM items WHERE id = ?;", itemID); err != nil {
 		return err
 	}
-    if _, err := d.Exec("DELETE FROM items_warehouses WHERE item_id = ?;", itemID); err != nil {
-        return err
-    }
+	if _, err := d.Exec("DELETE FROM items_warehouses WHERE item_id = ?;", itemID); err != nil {
+		return err
+	}
 
-    return nil
+	return nil
 }
 
 func AssignItemToWarehouse(d *sql.DB, itemID string, warehouseID string) error {

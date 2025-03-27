@@ -45,7 +45,7 @@ func createItem(d *sql.DB, c *gin.Context) error {
 		return err
 	}
 
-    fmt.Println("body contents:", string(bodyContents))
+	fmt.Println("body contents:", string(bodyContents))
 
 	var createPayload database.CreateItemPayload
 	if err := json.Unmarshal(bodyContents, &createPayload); err != nil {
@@ -102,9 +102,9 @@ func deleteItem(d *sql.DB, c *gin.Context) error {
 }
 
 func CreateItemsRoutes(d *sql.DB, r *gin.RouterGroup) {
-    r.GET("/", middlewares.APIGatewayScopeCheck([]string{"r:items"}), WrapError(WithDB(d, getItems)))
-    r.GET("/for-warehouse/:ID", middlewares.APIGatewayScopeCheck([]string{"r:items"}), WrapError(WithDB(d, getItemsByWarehouse)))
-    r.POST("/", middlewares.APIGatewayScopeCheck([]string{"c:items"}), WrapError(WithDB(d, createItem)))
-    r.POST("/assign-to-warehouse/", middlewares.APIGatewayScopeCheck([]string{"c:items"}), WrapError(WithDB(d, assignToWarehouse)))
-    r.DELETE("/:ID", middlewares.APIGatewayScopeCheck([]string{"d:items"}), WrapError(WithDB(d, deleteItem)))
+	r.GET("/", middlewares.APIGatewayScopeCheck([]string{"r:items"}), WrapError(WithDB(d, getItems)))
+	r.GET("/for-warehouse/:ID", middlewares.APIGatewayScopeCheck([]string{"r:items"}), WrapError(WithDB(d, getItemsByWarehouse)))
+	r.POST("/", middlewares.APIGatewayScopeCheck([]string{"c:items"}), WrapError(WithDB(d, createItem)))
+	r.POST("/assign-to-warehouse/", middlewares.APIGatewayScopeCheck([]string{"c:items"}), WrapError(WithDB(d, assignToWarehouse)))
+	r.DELETE("/:ID", middlewares.APIGatewayScopeCheck([]string{"d:items"}), WrapError(WithDB(d, deleteItem)))
 }
