@@ -1,6 +1,6 @@
 module github.com/alphatechnolog/purplish-items
 
-go 1.23.5
+go 1.24.1
 
 require (
 	github.com/gin-gonic/gin v1.10.0
@@ -9,6 +9,7 @@ require (
 )
 
 require (
+	github.com/alphatechnolog/purplish-project-common v0.0.0-20250331135739-24e3de6480c6 // indirect
 	github.com/bytedance/sonic v1.11.6 // indirect
 	github.com/bytedance/sonic/loader v0.1.1 // indirect
 	github.com/cloudwego/base64x v0.1.4 // indirect

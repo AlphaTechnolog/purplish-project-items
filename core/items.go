@@ -102,9 +102,9 @@ func deleteItem(d *sql.DB, c *gin.Context) error {
 }
 
 func CreateItemsRoutes(d *sql.DB, r *gin.RouterGroup) {
-	r.GET("/", middlewares.APIGatewayScopeCheck([]string{"r:items"}), WrapError(WithDB(d, getItems)))
-	r.GET("/for-warehouse/:ID", middlewares.APIGatewayScopeCheck([]string{"r:items"}), WrapError(WithDB(d, getItemsByWarehouse)))
-	r.POST("/", middlewares.APIGatewayScopeCheck([]string{"c:items"}), WrapError(WithDB(d, createItem)))
-	r.POST("/assign-to-warehouse/", middlewares.APIGatewayScopeCheck([]string{"c:items"}), WrapError(WithDB(d, assignToWarehouse)))
-	r.DELETE("/:ID", middlewares.APIGatewayScopeCheck([]string{"d:items"}), WrapError(WithDB(d, deleteItem)))
+	r.GET("/", middlewares.APIGatewayScopeCheck("r:items"), WrapError(WithDB(d, getItems)))
+	r.GET("/for-warehouse/:ID", middlewares.APIGatewayScopeCheck("r:items"), WrapError(WithDB(d, getItemsByWarehouse)))
+	r.POST("/", middlewares.APIGatewayScopeCheck("c:items"), WrapError(WithDB(d, createItem)))
+	r.POST("/assign-to-warehouse/", middlewares.APIGatewayScopeCheck("c:items"), WrapError(WithDB(d, assignToWarehouse)))
+	r.DELETE("/:ID", middlewares.APIGatewayScopeCheck("d:items"), WrapError(WithDB(d, deleteItem)))
 }
