@@ -25,54 +25,10 @@ func APIGatewayScopeCheck(requiredScopes string) gin.HandlerFunc {
 		if err != nil {
 			c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})
 			c.Abort()
+			return
 		}
 
 		c.Set("user-scopes", userScopes)
 		c.Next()
 	}
 }
-
-// func APIGatewayScopeCheck(requiredScopes []string) gin.HandlerFunc {
-// 	return func(c *gin.Context) {
-// 		encryptedUserScopes := c.GetHeader("X-User-Scopes")
-// 		if encryptedUserScopes == "" {
-// 			c.JSON(http.StatusUnauthorized, gin.H{"error": "X-User-Scopes required"})
-// 			c.Abort()
-// 			return
-// 		}
-
-// 		userScopes, err := encryption.DecryptAES(getApiGatewayAuthToken(), encryptedUserScopes)
-// 		if err != nil {
-// 			c.JSON(http.StatusUnauthorized, gin.H{
-// 				"error":   err.Error(),
-// 				"process": "Obtain user scopes",
-// 			})
-// 			c.Abort()
-// 			return
-// 		}
-
-// 		c.Set("user-scopes", userScopes)
-
-// 		splittedScopes := strings.Split(userScopes, " ")
-// 		missingScope := func() *string {
-// 			for _, requiredScope := range requiredScopes {
-// 				if !slices.Contains(splittedScopes, requiredScope) {
-// 					return &requiredScope
-// 				}
-// 			}
-// 			return nil
-// 		}()
-
-// 		if missingScope != nil {
-// 			// This should be unreachable because the api gateway should've validated this
-// 			// but this failing may indicate one of two things.
-// 			// 1. A possible unknown agent is trying to touch the micro directly and is not passing user scopes correctly which may indicate possible attack attempt.
-// 			// 2. API Gateway is malfunctioning and therefore passing user scopes badly or not validated at all lmfao.
-// 			c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized to perform: " + *missingScope})
-// 			c.Abort()
-// 			return
-// 		}
-
-// 		c.Next()
-// 	}
-// }
