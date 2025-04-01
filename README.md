@@ -20,5 +20,6 @@ Run the next commands on your system:
 ```sh
 ./.bin/run-migrations.sh
 go mod tidy
-PORT=8000 go run .
+cp -rvf ./.env{.example,} # Edit the .env file if needed.
+go run cmd/api/main.go
 ```
