@@ -83,7 +83,7 @@ func (h *ItemHandler) AssignToWarehouse(c *gin.Context) {
 
 func (h *ItemHandler) CreateItem(c *gin.Context) {
 	var item domain.Item
-	if err := c.ShouldBindJSON(&item); err != nil {
+	if err := c.ShouldBind(&item); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "Invalid input"})
 		return
 	}
